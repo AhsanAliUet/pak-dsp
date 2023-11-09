@@ -12,14 +12,14 @@ module pp_decimator_2 #(
     localparam FIR_OUTPUT_SIZE1 = DATA_WIDTH + COEFF_WIDTH + $clog2(N_COEFFS_1-1),
     localparam OUTPUT_WORD_SIZE = FIR_OUTPUT_SIZE
 )(
-    input                                         clk,
-    input                                         arst_n,
-    input                                         bypass,
-    input  logic [N_COEFFS_0+N_COEFFS_1-1:0][COEFF_WIDTH-1:0] coeffs,
-    input  signed       [DATA_WIDTH-1:0]     data_in,
-    input                                         valid_in,
-    output logic signed [OUTPUT_WORD_SIZE-1:0]    data_out,
-    output logic                                  valid_out
+    input                                                            clk,
+    input                                                            arst_n,
+    input                                                            bypass,
+    input  logic signed [N_COEFFS_0+N_COEFFS_1-1:0][COEFF_WIDTH-1:0] coeffs,
+    input  logic signed [DATA_WIDTH-1:0]                             data_in,
+    input                                                            valid_in,
+    output logic signed [OUTPUT_WORD_SIZE-1:0]                       data_out,
+    output logic                                                     valid_out
 );
 
     // For zero padding and sign extension of bypass data
@@ -56,7 +56,7 @@ module pp_decimator_2 #(
     ) i_fir_filter_0 (
         .clk             ( clk             ),
         .arst_n          ( arst_n          ),
-        .coeff           ( coeffs          ),
+        .coeff           ( coeffs[39:20]   ),
         .data_in         ( data_in         ),
         .valid_in        ( pp_valid_in[0]  ),
         .data_out        ( pp_output0      ),
@@ -70,7 +70,7 @@ module pp_decimator_2 #(
     ) i_fir_filter_1 (
         .clk             ( clk             ),
         .arst_n          ( arst_n          ),
-        .coeff           ( coeffs          ),
+        .coeff           ( coeffs[19:0]    ),
         .data_in         ( data_in         ),
         .valid_in        ( pp_valid_in[1]  ),
         .data_out        ( pp_output1      ),

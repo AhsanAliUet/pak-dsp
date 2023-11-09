@@ -34,7 +34,7 @@ def to_float(f, e, int_width=1):
     return res
 
 async def driver(dut, data):
-    dut.bypass        <= int(7)
+    dut.bypass        <= int(0)
     dut.src_valid_in  <= int(1)
     dut.src_data_in   <= to_fixed(data, 15)
     await RisingEdge(dut.clk)

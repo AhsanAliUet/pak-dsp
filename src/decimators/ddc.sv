@@ -10,7 +10,7 @@ module ddc #(
     input  logic                                  clk,
     input  logic                                  arst_n,
     input  logic [2:0]                            bypass,
-    // input  logic [N_COEFFS_0+N_COEFFS_1-1:0][COEFF_WIDTH-1:0] coeffs[3],    // there are three interpolators
+    // input  logic signed [N_COEFFS_0+N_COEFFS_1-1:0][COEFF_WIDTH-1:0] coeffs[3],    // there are three interpolators
     input  logic [DATA_WIDTH-1:0]                 src_data_in,
     input  logic                                  src_valid_in,
     output logic                                  src_ready_out,
@@ -42,7 +42,7 @@ module ddc #(
     assign src_ready_out = dst_ready_in;
     assign dst_valid_out = valid_out_decim_3;
 
-    logic [N_COEFFS_0+N_COEFFS_1-1:0][COEFF_WIDTH-1:0] coeffs[3];
+    logic signed [N_COEFFS_0+N_COEFFS_1-1:0][COEFF_WIDTH-1:0] coeffs[3];
 
     assign coeffs[0][39:20] = `COEFF_0_DECIM_1;
     assign coeffs[0][19:0]  = `COEFF_1_DECIM_1;
