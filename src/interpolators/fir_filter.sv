@@ -1,20 +1,18 @@
 // FIR filter
 
-module fir_filter
-    import filter_pkg::coeff_s;
-#(
+module fir_filter #(
     parameter INPUT_WORD_SIZE = 16,
     parameter COEFF_WORD_SIZE = 16,
     parameter N_COEFFS        = 5,
     localparam OUTPUT_WORD_SIZE = INPUT_WORD_SIZE + COEFF_WORD_SIZE + $clog2(N_COEFFS - 1) 
     )(
-    input   logic                                 clk,
-    input   logic                                 arst_n,
-    input   coeff_s                               coeff,
-    input   logic signed  [INPUT_WORD_SIZE-1:0]   data_in,
-    input   logic                                 valid_in,
-    output  logic signed  [OUTPUT_WORD_SIZE-1:0]  data_out,
-    output  logic                                 valid_out
+    input   logic                                             clk,
+    input   logic                                             arst_n,
+    input   logic signed  [N_COEFFS-1:0][COEFF_WORD_SIZE-1:0] coeff,
+    input   logic signed  [INPUT_WORD_SIZE-1:0]               data_in,
+    input   logic                                             valid_in,
+    output  logic signed  [OUTPUT_WORD_SIZE-1:0]              data_out,
+    output  logic                                             valid_out
 );
 
     localparam DELAY_LINE_SIZE = N_COEFFS-1;

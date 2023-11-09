@@ -8,16 +8,16 @@ module interpolator #(
     parameter  N_COEFFS_1   = 20,
     localparam OUTPUT_WIDTH = DATA_WIDTH + COEFF_WIDTH + $clog2(N_COEFFS_0-1)
 )(
-    input  logic                                              clk,
-    input  logic                                              arst_n,
-    input  logic                                              bypass,
-    input  logic [N_COEFFS_0+N_COEFFS_1-1:0][COEFF_WIDTH-1:0] coeffs,
-    input  logic [DATA_WIDTH-1:0]                             src_data_in,
-    input  logic                                              src_valid_in,
-    output logic                                              src_ready_out,
-    output logic [OUTPUT_WIDTH-1:0]                           dst_data_out,
-    output logic                                              dst_valid_out,
-    input  logic                                              dst_ready_in
+    input  logic                                                     clk,
+    input  logic                                                     arst_n,
+    input  logic                                                     bypass,
+    input  logic signed [N_COEFFS_0+N_COEFFS_1-1:0][COEFF_WIDTH-1:0] coeffs,
+    input  logic [DATA_WIDTH-1:0]                                    src_data_in,
+    input  logic                                                     src_valid_in,
+    output logic                                                     src_ready_out,
+    output logic [OUTPUT_WIDTH-1:0]                                  dst_data_out,
+    output logic                                                     dst_valid_out,
+    input  logic                                                     dst_ready_in
 );
 
     // For zero padding and sign extension of bypass data
@@ -25,9 +25,6 @@ module interpolator #(
     localparam Y           = COEFF_WIDTH - 1;
     localparam Z           = OUTPUT_WIDTH - (X+Y);
     localparam MSB_BP_DATA = DATA_WIDTH - 1;
-
-    localparam N_COEFFS        = N_COEFFS_0;
-    localparam DELAY_LINE_SIZE = 2*N_COEFFS - 1;
 
     logic [1:0]              filter_val;   // 2 polyphase branches
     logic [OUTPUT_WIDTH-1:0] bp_data_out;
@@ -52,7 +49,7 @@ module interpolator #(
     ) u_fir_filter_0 (
         .clk             ( clk             ),
         .arst_n          ( arst_n          ),
-        .coeff           ( coeffs          ),
+        .coeff           ( coeffs[39:20]   ),
         .data_in         ( src_data_in     ),
         .valid_in        ( src_valid_in    ),
         .data_out        ( filter_output0  ),
@@ -66,7 +63,7 @@ module interpolator #(
     ) u_fir_filter_1 (
         .clk            (clk                ),
         .arst_n         (arst_n             ),
-        .coeff          (coeffs             ),
+        .coeff          (coeffs[19:0]       ),
         .data_in        (src_data_in        ),
         .valid_in       (src_valid_in       ),
         .data_out       (filter_output1     ),

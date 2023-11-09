@@ -82,7 +82,6 @@ async def test_duc(dut):
         sin_data.append(A*sin(w*t))
 
     wave_in = sin_data
-    print(wave_in)
     monitor_task = cocotb.start_soon(monitor(dut))
     for i in range (len(wave_in)):
         driver_task = cocotb.start_soon(driver(dut, wave_in[i]))

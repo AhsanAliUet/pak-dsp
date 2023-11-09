@@ -41,7 +41,7 @@ module duc #(
     assign dst_data_out  = data_out_sat_3;
     assign dst_valid_out = valid_out_interp_3;
 
-    logic [N_COEFFS_0+N_COEFFS_1-1:0][COEFF_WIDTH-1:0] coeffs[3];    // there are three interpolators
+    logic signed [N_COEFFS_0+N_COEFFS_1-1:0][COEFF_WIDTH-1:0] coeffs[3];    // there are three interpolators
 
     assign coeffs[0][39:20] = `COEFF_0_INTERP_1;
     assign coeffs[0][19:0]  = `COEFF_1_INTERP_1;
