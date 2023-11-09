@@ -11,6 +11,7 @@ INTERP_DIR	    = $(SRC_DIR)/interpolators
 INTERP_SRCS     = $(SRC_DIR)/interpolators/duc.sv $(SRC_DIR)/interpolators/fir_filter.sv $(SRC_DIR)/interpolators/interpolator_ctrl.sv $(SRC_DIR)/interpolators/interpolator.sv $(SRC_DIR)/interpolators/sat_trunc.sv
 INTERP_PKGS     = filter_pkg.sv
 DECIM_SRCS      = $(SRC_DIR)/decimators/ddc.sv $(SRC_DIR)/decimators/pp_decimator_2.sv $(SRC_DIR)/interpolators/fir_filter.sv $(SRC_DIR)/interpolators/sat_trunc.sv
+FFT_SRCS        = $(SRC_DIR)/fft_8p/pipeline.sv
 
 # dut parameters
 ifeq ($(DUT), duc)
@@ -27,6 +28,15 @@ ifeq ($(DUT), ddc)
 	MODULE    = pytests.test_ddc
 	_PKGS     = $(SRC_DIR)/interpolators/filter_pkg.sv
 	_SRCS     = $(DECIM_SRCS)
+	SIM_BUILD = build/build_$(TOPLEVEL)
+endif
+
+# dut parameters
+ifeq ($(DUT), pipeline)
+	TOPLEVEL  = $(DUT)
+	MODULE    = pytests.test_pipeline
+	_PKGS     = 
+	_SRCS     = $(FFT_SRCS)
 	SIM_BUILD = build/build_$(TOPLEVEL)
 endif
 
