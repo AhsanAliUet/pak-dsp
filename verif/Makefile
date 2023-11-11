@@ -11,7 +11,7 @@ INTERP_DIR	    = $(SRC_DIR)/interpolators
 INTERP_SRCS     = $(SRC_DIR)/interpolators/duc.sv $(SRC_DIR)/interpolators/fir_filter.sv $(SRC_DIR)/interpolators/interpolator_ctrl.sv $(SRC_DIR)/interpolators/interpolator.sv $(SRC_DIR)/interpolators/sat_trunc.sv
 INTERP_PKGS     = filter_pkg.sv
 DECIM_SRCS      = $(SRC_DIR)/decimators/ddc.sv $(SRC_DIR)/decimators/pp_decimator_2.sv $(SRC_DIR)/interpolators/fir_filter.sv $(SRC_DIR)/interpolators/sat_trunc.sv
-FFT_SRCS        = $(SRC_DIR)/fft_8p/pipeline.sv $(SRC_DIR)/fft_8p/cmul.sv $(SRC_DIR)/fft_8p/cadd.sv $(SRC_DIR)/fft_8p/bfly_2p.sv
+FFT_SRCS        = $(SRC_DIR)/fft_8p/pipeline.sv $(SRC_DIR)/fft_8p/cmul.sv $(SRC_DIR)/fft_8p/cadd.sv $(SRC_DIR)/fft_8p/bfly_2p.sv $(SRC_DIR)/fft_8p/fft_8p.sv
 
 # dut parameters
 ifeq ($(DUT), duc)
@@ -68,13 +68,11 @@ ifeq ($(DUT), bfly_2p)
 endif
 
 # dut parameters
-ifeq ($(DUT), fft)
+ifeq ($(DUT), fft_8p)
 	TOPLEVEL  = $(DUT)
 	MODULE    = pytests.test_$(DUT)
-	_PKGS     = $(FFT_PKGS)
-	PKGS      = $(patsubst %,$(FFT_DIR)/%,$(_PKGS))
+	_PKGS     = 
 	_SRCS     = $(FFT_SRCS)
-	SRCS      = $(patsubst %,$(FFT_DIR)/%,$(_SRCS))
 	SIM_BUILD = build/build_$(TOPLEVEL)
 endif
 

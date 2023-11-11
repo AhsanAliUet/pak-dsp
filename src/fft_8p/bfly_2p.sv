@@ -3,14 +3,16 @@
 module bfly_2p #(
     parameter DATA_WIDTH = 16
 )(
-    input  logic signed [DATA_WIDTH-1:0]   A_real,
-    input  logic signed [DATA_WIDTH-1:0]   B_real,
-    input  logic signed [DATA_WIDTH-1:0]   W_real,
-    input  logic signed [DATA_WIDTH-1:0]   W_imag,
-    output logic signed [2*DATA_WIDTH-1:0] Y0_real,
-    output logic signed [2*DATA_WIDTH-1:0] Y0_imag,
-    output logic signed [2*DATA_WIDTH-1:0] Y1_real,
-    output logic signed [2*DATA_WIDTH-1:0] Y1_imag
+    input  logic signed [DATA_WIDTH-1:0] A_real,
+    input  logic signed [DATA_WIDTH-1:0] A_imag,
+    input  logic signed [DATA_WIDTH-1:0] B_real,
+    input  logic signed [DATA_WIDTH-1:0] B_imag,
+    input  logic signed [DATA_WIDTH-1:0] W_real,
+    input  logic signed [DATA_WIDTH-1:0] W_imag,
+    output logic signed [DATA_WIDTH-1:0] Y0_real,
+    output logic signed [DATA_WIDTH-1:0] Y0_imag,
+    output logic signed [DATA_WIDTH-1:0] Y1_real,
+    output logic signed [DATA_WIDTH-1:0] Y1_imag
 );
 
     // Y0 = A + B*W;
