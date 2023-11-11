@@ -11,12 +11,12 @@ INTERP_DIR	    = $(SRC_DIR)/interpolators
 INTERP_SRCS     = $(SRC_DIR)/interpolators/duc.sv $(SRC_DIR)/interpolators/fir_filter.sv $(SRC_DIR)/interpolators/interpolator_ctrl.sv $(SRC_DIR)/interpolators/interpolator.sv $(SRC_DIR)/interpolators/sat_trunc.sv
 INTERP_PKGS     = filter_pkg.sv
 DECIM_SRCS      = $(SRC_DIR)/decimators/ddc.sv $(SRC_DIR)/decimators/pp_decimator_2.sv $(SRC_DIR)/interpolators/fir_filter.sv $(SRC_DIR)/interpolators/sat_trunc.sv
-FFT_SRCS        = $(SRC_DIR)/fft_8p/pipeline.sv
+FFT_SRCS        = $(SRC_DIR)/fft_8p/pipeline.sv $(SRC_DIR)/fft_8p/cmul.sv $(SRC_DIR)/fft_8p/cadd.sv $(SRC_DIR)/fft_8p/bfly_2p.sv
 
 # dut parameters
 ifeq ($(DUT), duc)
 	TOPLEVEL  = $(DUT)
-	MODULE    = pytests.test_duc
+	MODULE    = pytests.test_$(DUT)
 	_PKGS     = $(SRC_DIR)/interpolators/filter_pkg.sv
 	_SRCS     = $(INTERP_SRCS)
 	SIM_BUILD = build/build_$(TOPLEVEL)
@@ -25,7 +25,7 @@ endif
 # dut parameters
 ifeq ($(DUT), ddc)
 	TOPLEVEL  = $(DUT)
-	MODULE    = pytests.test_ddc
+	MODULE    = pytests.test_$(DUT)
 	_PKGS     = $(SRC_DIR)/interpolators/filter_pkg.sv
 	_SRCS     = $(DECIM_SRCS)
 	SIM_BUILD = build/build_$(TOPLEVEL)
@@ -34,7 +34,34 @@ endif
 # dut parameters
 ifeq ($(DUT), pipeline)
 	TOPLEVEL  = $(DUT)
-	MODULE    = pytests.test_pipeline
+	MODULE    = pytests.test_$(DUT)
+	_PKGS     = 
+	_SRCS     = $(FFT_SRCS)
+	SIM_BUILD = build/build_$(TOPLEVEL)
+endif
+
+# dut parameters
+ifeq ($(DUT), cmul)
+	TOPLEVEL  = $(DUT)
+	MODULE    = pytests.test_$(DUT)
+	_PKGS     = 
+	_SRCS     = $(FFT_SRCS)
+	SIM_BUILD = build/build_$(TOPLEVEL)
+endif
+
+# dut parameters
+ifeq ($(DUT), cadd)
+	TOPLEVEL  = $(DUT)
+	MODULE    = pytests.test_$(DUT)
+	_PKGS     = 
+	_SRCS     = $(FFT_SRCS)
+	SIM_BUILD = build/build_$(TOPLEVEL)
+endif
+
+# dut parameters
+ifeq ($(DUT), bfly_2p)
+	TOPLEVEL  = $(DUT)
+	MODULE    = pytests.test_$(DUT)
 	_PKGS     = 
 	_SRCS     = $(FFT_SRCS)
 	SIM_BUILD = build/build_$(TOPLEVEL)
@@ -43,7 +70,7 @@ endif
 # dut parameters
 ifeq ($(DUT), fft)
 	TOPLEVEL  = $(DUT)
-	MODULE    = pytests.test_fft
+	MODULE    = pytests.test_$(DUT)
 	_PKGS     = $(FFT_PKGS)
 	PKGS      = $(patsubst %,$(FFT_DIR)/%,$(_PKGS))
 	_SRCS     = $(FFT_SRCS)
@@ -54,7 +81,7 @@ endif
 # dut parameters
 ifeq ($(DUT), pak_dsp)
 	TOPLEVEL  = $(DUT)
-	MODULE    = pytests.test_pak_dsp
+	MODULE    = pytests.test_$(DUT)
 	_PKGS     = $(INTERP_PKGS) $(DECIM_PKGS) $(FFT_PKGS)
 	_SRCS     = $(INTERP_SRCS) $(DECIM_SRCS) $(FFT_SRCS)
 	SIM_BUILD = build/build_$(TOPLEVEL)

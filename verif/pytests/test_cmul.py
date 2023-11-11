@@ -31,13 +31,11 @@ def to_float(f, e, int_width=1):
     res = f/(2**e)
     return res
 
-async def driver(dut, A_real, A_imag, B_real, B_imag, W_real, W_imag):
+async def driver(dut, A_real, A_imag, B_real, B_imag):
     dut.A_real.value = to_fixed(A_real, 15)
     dut.A_imag.value = to_fixed(A_imag, 15)
     dut.B_real.value = to_fixed(B_real, 15)
     dut.B_imag.value = to_fixed(B_imag, 15)
-    dut.W_real.value = to_fixed(W_real, 15)
-    dut.W_imag.value = to_fixed(W_imag, 15)
 
 async def monitor(dut):
     pass
@@ -45,7 +43,7 @@ async def monitor(dut):
 # ============ Main Test ==================
 
 @cocotb.test()
-async def test_bfly_2p(dut):
+async def test_cmul(dut):
 
     cos_data = []
     sin_data = []
@@ -56,6 +54,6 @@ async def test_bfly_2p(dut):
 
     monitor_task = cocotb.start_soon(monitor(dut))
     for i in range (cycles):
-        cocotb.start_soon(driver(dut, cos_data[i], sin_data[i], cos_data[i], sin_data[i]), sin_data[i], sin_data[i])
+        cocotb.start_soon(driver(dut, cos_data[i], sin_data[i], cos_data[i], sin_data[i]))
         await Timer(2, units='ns')
     await Join(monitor_task)

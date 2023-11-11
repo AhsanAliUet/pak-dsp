@@ -39,4 +39,4 @@ module pipeline #(
         end
     endgenerate
 
-endmodule : delay_pipeline
+endmodule : pipeline
