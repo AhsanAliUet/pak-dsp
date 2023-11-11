@@ -1,4 +1,4 @@
-module fft_8p
+module fft_4p
 # (
     parameter N            = 4,
     parameter SAMPLE_WIDTH = 16,
