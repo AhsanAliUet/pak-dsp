@@ -111,12 +111,12 @@ module fft_8p #(
                 .A_imag     ( stage_1_imag[i]   ),
                 .B_real     ( stage_1_real[i+2] ),
                 .B_imag     ( stage_1_imag[i+2] ),
-                .W_real     ( i==0 ? W_8_real[0] : W_8_real[2] ),
-                .W_imag     ( i==0 ? W_8_imag[0] : W_8_imag[2] ),
+                .W_real     ( (i==0) ? W_8_real[0] : W_8_real[2] ),
+                .W_imag     ( (i==0) ? W_8_imag[0] : W_8_imag[2] ),
                 .Y0_real    ( stage_2_real[i]   ),
                 .Y0_imag    ( stage_2_imag[i]   ),
-                .Y1_real    ( stage_2_real[i+1] ),
-                .Y1_imag    ( stage_2_imag[i+1] )
+                .Y1_real    ( stage_2_real[i+2] ),
+                .Y1_imag    ( stage_2_imag[i+2] )
             );
         end
 
@@ -129,12 +129,12 @@ module fft_8p #(
                 .A_imag     ( stage_1_imag[j]   ),
                 .B_real     ( stage_1_real[j+2] ),
                 .B_imag     ( stage_1_imag[j+2] ),
-                .W_real     ( j==N/2 ? W_8_real[0] : W_8_real[2] ),
-                .W_imag     ( j==N/2 ? W_8_imag[0] : W_8_imag[2] ),
+                .W_real     ( (j==(N/2)) ? W_8_real[0] : W_8_real[2] ),
+                .W_imag     ( (j==(N/2)) ? W_8_imag[0] : W_8_imag[2] ),
                 .Y0_real    ( stage_2_real[j]   ),
                 .Y0_imag    ( stage_2_imag[j]   ),
-                .Y1_real    ( stage_2_real[j+1] ),
-                .Y1_imag    ( stage_2_imag[j+1] )
+                .Y1_real    ( stage_2_real[j+2] ),
+                .Y1_imag    ( stage_2_imag[j+2] )
             );
         end
 
@@ -155,8 +155,8 @@ module fft_8p #(
                 .W_imag     ( W_8_imag[i]       ),
                 .Y0_real    ( stage_3_real[i]   ),
                 .Y0_imag    ( stage_3_imag[i]   ),
-                .Y1_real    ( stage_3_real[i+1] ),
-                .Y1_imag    ( stage_3_imag[i+1] )
+                .Y1_real    ( stage_3_real[i+4] ),
+                .Y1_imag    ( stage_3_imag[i+4] )
             );
         end
     endgenerate
