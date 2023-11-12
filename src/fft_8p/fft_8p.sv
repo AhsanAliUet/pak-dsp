@@ -6,55 +6,15 @@ module fft_8p #(
 )(
     input  logic                         clk,
     input  logic                         arst_n,
-    // input  logic signed [DATA_WIDTH-1:0] x_real [N-1:0],
-    // input  logic signed [DATA_WIDTH-1:0] x_imag [N-1:0],
+    input  logic signed [DATA_WIDTH-1:0] x_real [N-1:0],
+    input  logic signed [DATA_WIDTH-1:0] x_imag [N-1:0],
     output logic signed [DATA_WIDTH-1:0] X_real [N-1:0],
     output logic signed [DATA_WIDTH-1:0] X_imag [N-1:0]
 );
 
-    localparam STAGE1 = 1;
-    localparam STAGE2 = 2;
-    localparam STAGE3 = 3;
-
-    logic signed [N-1:0][DATA_WIDTH-1:0] x_real;
-    logic signed [N-1:0][DATA_WIDTH-1:0] x_imag;
-
-    function shortint float2fix16(real x, shortint fw);
-        return shortint'(x*(2**fw));
-    endfunction
-
-    shortint ONE_REAL   = float2fix16(1, 8);
-    shortint TWO_REAL   = float2fix16(2, 8);
-    shortint THREE_REAL = float2fix16(3, 8);
-    shortint FOUR_REAL  = float2fix16(4, 8);
-    shortint FIVE_REAL  = float2fix16(5, 8);
-    shortint SIX_REAL   = float2fix16(6, 8);
-    shortint SEVEN_REAL = float2fix16(7, 8);
-    shortint EIGHT_REAL = float2fix16(8, 8);
-
-    shortint ONE_IMAG   = float2fix16(1, 8);
-    shortint TWO_IMAG   = float2fix16(1, 8);
-    shortint THREE_IMAG = float2fix16(1, 8);
-    shortint FOUR_IMAG  = float2fix16(1, 8);
-    shortint FIVE_IMAG  = float2fix16(1, 8);
-    shortint SIX_IMAG   = float2fix16(1, 8);
-    shortint SEVEN_IMAG = float2fix16(1, 8);
-    shortint EIGHT_IMAG = float2fix16(1, 8);
-
-    assign x_real = {EIGHT_REAL, SEVEN_REAL, SIX_REAL, FIVE_REAL, FOUR_REAL, THREE_REAL, TWO_REAL, ONE_REAL};
-    assign x_imag = {EIGHT_IMAG, SEVEN_IMAG, SIX_IMAG, FIVE_IMAG, FOUR_IMAG, THREE_IMAG, TWO_IMAG, ONE_IMAG};
-
     logic signed [N/2-1:0][DATA_WIDTH-1:0] W_8_real;
     logic signed [N/2-1:0][DATA_WIDTH-1:0] W_8_imag;
 
-    assign W_8_real[0] = float2fix16(1     , 8);   // 1      - j0
-    assign W_8_imag[0] = float2fix16(-0    , 8);   // 1      - j0
-    assign W_8_real[1] = float2fix16(0.707 , 8);   // 0.707  - j0.707
-    assign W_8_imag[1] = float2fix16(-0.707, 8);   // 0.707  - j0.707
-    assign W_8_real[2] = float2fix16(0     , 8);   // 0      - j1
-    assign W_8_imag[2] = float2fix16(-1    , 8);   // 0      - j1
-    assign W_8_real[3] = float2fix16(-0.707, 8);   // -0.707 - j0.707
-    assign W_8_imag[3] = float2fix16(-0.707, 8);   // -0.707 - j0.707
 
     logic signed [DATA_WIDTH-1:0] stage_1_real [N-1:0];
     logic signed [DATA_WIDTH-1:0] stage_1_imag [N-1:0];
@@ -64,6 +24,15 @@ module fft_8p #(
 
     logic signed [DATA_WIDTH-1:0] stage_3_real [N-1:0];
     logic signed [DATA_WIDTH-1:0] stage_3_imag [N-1:0];
+
+    assign W_8_real[0] = float2fix16(1     , 8);   // 1      - j0
+    assign W_8_imag[0] = float2fix16(-0    , 8);   // 1      - j0
+    assign W_8_real[1] = float2fix16(0.707 , 8);   // 0.707  - j0.707
+    assign W_8_imag[1] = float2fix16(-0.707, 8);   // 0.707  - j0.707
+    assign W_8_real[2] = float2fix16(0     , 8);   // 0      - j1
+    assign W_8_imag[2] = float2fix16(-1    , 8);   // 0      - j1
+    assign W_8_real[3] = float2fix16(-0.707, 8);   // -0.707 - j0.707
+    assign W_8_imag[3] = float2fix16(-0.707, 8);   // -0.707 - j0.707
 
     function automatic logic [$clog2(N)-1:0] bit_reversal(
         input [$clog2(N)-1:0] data_in
@@ -160,4 +129,8 @@ module fft_8p #(
             );
         end
     endgenerate
+
+    assign X_real = stage_3_real;
+    assign X_imag = stage_3_imag;
+
 endmodule : fft_8p

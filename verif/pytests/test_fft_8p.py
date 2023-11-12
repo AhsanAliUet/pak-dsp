@@ -6,14 +6,19 @@ import numpy as np
 import cocotb
 from   cocotb.clock import Clock
 from   cocotb.triggers import FallingEdge, RisingEdge, Join, ClockCycles
+import random
+from numpy.fft import fft
 
 # =========== Parameters ==================
 
 # ========== ENUMS ==========
 
 # ========== Driver/Monitor ===============
-data_out = []
+data_out_real = []
+data_out_imag = []
 cycles = 3000
+N = 8
+NUM_TESTS = 10
 
 def to_fixed(f,e):
     a = f* (2**e)
@@ -31,18 +36,15 @@ def to_float(f, e, int_width=1):
     res = f/(2**e)
     return res
 
-async def driver(dut, data):
-    # dut.src_data_in.value = to_fixed(data, 15)
+def merge_data(data_real, data_imag):
     pass
+
+async def driver(dut, data_real, data_imag):
+    dut.x_real.value = data_real
+    dut.x_imag.value = data_imag
 
 async def monitor(dut):
-    # count = 0
-    # while(count < cycles):
-    #     await RisingEdge(dut.clk)
-    #     count = count + 1
-    #     data_out.append(to_float(int(dut.dst_data_out), 15, 1))
     pass
-
 # ============ Main Test ==================
 
 @cocotb.test()
@@ -60,16 +62,20 @@ async def test_fft_8p(dut):
 
     await RisingEdge(dut.clk)
 
-    cos_data = []
-    
-    for i in range(cycles):
-        cos_data.append(0.99*np.cos(int(i)*2*np.pi*0.01))
-
     monitor_task = cocotb.start_soon(monitor(dut))
-    for i in range (len(cos_data)):
+    for i in range (NUM_TESTS):
         await RisingEdge(dut.clk)
-        cocotb.start_soon(driver(dut, cos_data[i]))
+        data_real = [random.randint(-NUM_TESTS*N, NUM_TESTS*N) for j in range(N)]
+        data_imag = [random.randint(-NUM_TESTS*N, NUM_TESTS*N) for j in range(N)]
+        data_cmpl = [complex(real, imag) for real, imag in zip(data_real, data_imag)]
+        driver_task = cocotb.start_soon(driver(dut, data_real, data_imag))
+        X         = fft(data_cmpl, 8)
+        print("\n\n==============Expected real part is:=======================", np.real(X))
+        print("\n\n==============Expected imag part is:=======================", np.imag(X))
+        print(dut.X_real.value)
+        print(dut.X_imag.value)
 
+    await Join(driver_task)
     await Join(monitor_task)
 
     await RisingEdge(dut.clk)
