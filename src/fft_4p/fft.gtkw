@@ -1,0 +1,83 @@
+[*]
+[*] GTKWave Analyzer v3.3.100 (w)1999-2019 BSI
+[*] Sun Nov 12 11:25:39 2023
+[*]
+[dumpfile] "C:\Users\Hamza\Desktop\verif\src\tb_fft_4p.vcd"
+[savefile] "C:\Users\Hamza\Desktop\verif\src\fft.gtkw"
+[timestart] 0
+[size] 1600 837
+[pos] -87 -87
+*-6.132037 154 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1 -1
+[treeopen] tb_fft_4p.
+[treeopen] tb_fft_4p.dut.
+[treeopen] tb_fft_4p.dut.stage[0].
+[treeopen] tb_fft_4p.dut.stage[0].block[0].
+[treeopen] tb_fft_4p.dut.stage[0].block[0].butterfly[0].
+[treeopen] tb_fft_4p.dut.stage[0].block[0].butterfly[1].
+[sst_width] 275
+[signals_width] 459
+[sst_expanded] 1
+[sst_vpaned_height] 236
+@28
+tb_fft_4p.dut.clk
+tb_fft_4p.dut.rst_n
+@200
+-
+@22
+tb_fft_4p.data_in[63:0]
+tb_fft_4p.data_out[63:0]
+@200
+-
+-Butterfly 0 @ Inputs 0 & 2
+-
+@420
+tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.DATAWIDTH
+@22
+#{tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_in_real[7:0]} tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_in_real[7] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_in_real[6] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_in_real[5] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_in_real[4] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_in_real[3] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_in_real[2] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_in_real[1] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_in_real[0]
+#{tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_in_imag[7:0]} tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_in_imag[7] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_in_imag[6] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_in_imag[5] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_in_imag[4] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_in_imag[3] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_in_imag[2] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_in_imag[1] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_in_imag[0]
+#{tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_in_real[7:0]} tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_in_real[7] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_in_real[6] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_in_real[5] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_in_real[4] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_in_real[3] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_in_real[2] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_in_real[1] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_in_real[0]
+#{tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_in_imag[7:0]} tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_in_imag[7] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_in_imag[6] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_in_imag[5] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_in_imag[4] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_in_imag[3] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_in_imag[2] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_in_imag[1] tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_in_imag[0]
+tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_real_fp[8:0]
+tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_imag_fp[8:0]
+tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_real_fp[8:0]
+tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_imag_fp[8:0]
+tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_out_real[7:0]
+@23
+tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_1_out_imag[7:0]
+@22
+tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_out_real[7:0]
+tb_fft_4p.dut.stage[0].block[0].butterfly[0].butterfly_i.data_2_out_imag[7:0]
+@200
+-
+@22
+#{tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.A_real[7:0]} tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.A_real[7] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.A_real[6] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.A_real[5] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.A_real[4] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.A_real[3] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.A_real[2] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.A_real[1] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.A_real[0]
+#{tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.A_imag[7:0]} tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.A_imag[7] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.A_imag[6] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.A_imag[5] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.A_imag[4] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.A_imag[3] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.A_imag[2] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.A_imag[1] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.A_imag[0]
+#{tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.B_real[7:0]} tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.B_real[7] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.B_real[6] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.B_real[5] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.B_real[4] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.B_real[3] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.B_real[2] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.B_real[1] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.B_real[0]
+#{tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.B_imag[7:0]} tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.B_imag[7] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.B_imag[6] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.B_imag[5] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.B_imag[4] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.B_imag[3] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.B_imag[2] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.B_imag[1] tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.B_imag[0]
+tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.Y_real[7:0]
+tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.Y_imag[7:0]
+tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.fp_imag[16:0]
+@420
+tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.fp_real[16:0]
+@200
+-
+-Butterfly 0 @ Inputs 1 & 3
+-
+@420
+tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.DATAWIDTH
+tb_fft_4p.dut.stage[0].block[0].butterfly[0].cmul_i.DATA_WIDTH
+@22
+#{tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_in_real[7:0]} tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_in_real[7] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_in_real[6] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_in_real[5] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_in_real[4] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_in_real[3] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_in_real[2] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_in_real[1] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_in_real[0]
+#{tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_in_imag[7:0]} tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_in_imag[7] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_in_imag[6] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_in_imag[5] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_in_imag[4] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_in_imag[3] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_in_imag[2] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_in_imag[1] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_in_imag[0]
+#{tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_in_real[7:0]} tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_in_real[7] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_in_real[6] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_in_real[5] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_in_real[4] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_in_real[3] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_in_real[2] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_in_real[1] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_in_real[0]
+#{tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_in_imag[7:0]} tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_in_imag[7] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_in_imag[6] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_in_imag[5] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_in_imag[4] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_in_imag[3] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_in_imag[2] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_in_imag[1] tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_in_imag[0]
+tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_real_fp[8:0]
+tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_imag_fp[8:0]
+tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_imag_fp[8:0]
+tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_real_fp[8:0]
+tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_out_imag[7:0]
+tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_1_out_real[7:0]
+tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_out_imag[7:0]
+tb_fft_4p.dut.stage[0].block[0].butterfly[1].butterfly_i.data_2_out_real[7:0]
+[pattern_trace] 1
+[pattern_trace] 0
