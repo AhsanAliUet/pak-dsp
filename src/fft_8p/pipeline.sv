@@ -12,6 +12,8 @@ module pipeline #(
     output logic signed [DATA_WIDTH-1:0] dst_data_out
 );
 
+    logic [DATA_WIDTH-1:0] buffer [NUM_STAGES-1:0];
+
     generate
         if (NUM_STAGES > 0 && BYPASS != 1)
         begin
@@ -19,7 +21,7 @@ module pipeline #(
             begin
                 if (~arst_n)
                 begin
-                    buffer <= '0;
+                    buffer <= '{default: '0};
                 end
                 else if (en_in)
                 begin
