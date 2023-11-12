@@ -19,23 +19,42 @@ module fft_8p #(
     logic signed [N-1:0][DATA_WIDTH-1:0] x_real;
     logic signed [N-1:0][DATA_WIDTH-1:0] x_imag;
 
-    assign x_real = {16'd1, 16'd2, 16'd9, -16'd3, -16'd1, 16'd0, 16'd8, 16'd4};
-    assign x_imag = {16'd0, 16'd0, 16'd0,  16'd0,  16'd0, 16'd0, 16'd0, 16'd0};
+    function shortint float2fix16(real x, shortint fw);
+        return shortint'(x*(2**fw));
+    endfunction
 
-    // twiddle factors
-    // 0.707  = 0101101010000010
-    // -0.707 = 1010010101111110
+    shortint ONE_REAL   = float2fix16(1, 8);
+    shortint TWO_REAL   = float2fix16(2, 8);
+    shortint THREE_REAL = float2fix16(3, 8);
+    shortint FOUR_REAL  = float2fix16(4, 8);
+    shortint FIVE_REAL  = float2fix16(5, 8);
+    shortint SIX_REAL   = float2fix16(6, 8);
+    shortint SEVEN_REAL = float2fix16(7, 8);
+    shortint EIGHT_REAL = float2fix16(8, 8);
+
+    shortint ONE_IMAG   = float2fix16(1, 8);
+    shortint TWO_IMAG   = float2fix16(1, 8);
+    shortint THREE_IMAG = float2fix16(1, 8);
+    shortint FOUR_IMAG  = float2fix16(1, 8);
+    shortint FIVE_IMAG  = float2fix16(1, 8);
+    shortint SIX_IMAG   = float2fix16(1, 8);
+    shortint SEVEN_IMAG = float2fix16(1, 8);
+    shortint EIGHT_IMAG = float2fix16(1, 8);
+
+    assign x_real = {EIGHT_REAL, SEVEN_REAL, SIX_REAL, FIVE_REAL, FOUR_REAL, THREE_REAL, TWO_REAL, ONE_REAL};
+    assign x_imag = {EIGHT_IMAG, SEVEN_IMAG, SIX_IMAG, FIVE_IMAG, FOUR_IMAG, THREE_IMAG, TWO_IMAG, ONE_IMAG};
+
     logic signed [N/2-1:0][DATA_WIDTH-1:0] W_8_real;
     logic signed [N/2-1:0][DATA_WIDTH-1:0] W_8_imag;
 
-    assign W_8_real[0] = 16'b0000000000000001;   // 1      - j0
-    assign W_8_imag[0] = 16'b0000000000000000;   // 1      - j0
-    assign W_8_real[1] = 16'b0101101010000010;   // 0.707  - j0.707
-    assign W_8_imag[1] = 16'b1010010101111110;   // 0.707  - j0.707
-    assign W_8_real[2] = 16'b0000000000000000;   // 0      - j1
-    assign W_8_imag[2] = 16'b1000000000000000;   // 0      - j1
-    assign W_8_real[3] = 16'b1010010101111110;   // -0.707 - j0.707
-    assign W_8_imag[3] = 16'b1010010101111110;   // -0.707 - j0.707
+    assign W_8_real[0] = float2fix16(1     , 8);   // 1      - j0
+    assign W_8_imag[0] = float2fix16(-0    , 8);   // 1      - j0
+    assign W_8_real[1] = float2fix16(0.707 , 8);   // 0.707  - j0.707
+    assign W_8_imag[1] = float2fix16(-0.707, 8);   // 0.707  - j0.707
+    assign W_8_real[2] = float2fix16(0     , 8);   // 0      - j1
+    assign W_8_imag[2] = float2fix16(-1    , 8);   // 0      - j1
+    assign W_8_real[3] = float2fix16(-0.707, 8);   // -0.707 - j0.707
+    assign W_8_imag[3] = float2fix16(-0.707, 8);   // -0.707 - j0.707
 
     logic signed [DATA_WIDTH-1:0] stage_1_real [N-1:0];
     logic signed [DATA_WIDTH-1:0] stage_1_imag [N-1:0];
@@ -73,10 +92,10 @@ module fft_8p #(
                 .B_imag     ( x_imag[bit_reversal(i+1)]       ),
                 .W_real     ( W_8_real[0]                     ),
                 .W_imag     ( W_8_imag[0]                     ),
-                .Y0_real    ( stage_1_real[bit_reversal(i)]   ),
-                .Y0_imag    ( stage_1_imag[bit_reversal(i)]   ),
-                .Y1_real    ( stage_1_real[bit_reversal(i+1)] ),
-                .Y1_imag    ( stage_1_imag[bit_reversal(i+1)] )
+                .Y0_real    ( stage_1_real[i]                 ),
+                .Y0_imag    ( stage_1_imag[i]                 ),
+                .Y1_real    ( stage_1_real[i+1]               ),
+                .Y1_imag    ( stage_1_imag[i+1]               )
             );
         end
     endgenerate
