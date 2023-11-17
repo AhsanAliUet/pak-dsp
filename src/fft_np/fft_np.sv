@@ -1,6 +1,6 @@
 // 4-point FFT module
 
-module fft_4p
+module fft_np
 # (
     parameter N            = 4,
     parameter SAMPLE_WIDTH = 16,
@@ -8,7 +8,7 @@ module fft_4p
     parameter DATA_WIDTH   = 16
 ) (
   	input  logic                           clk,
-  	input  logic                           rst_n,
+  	input  logic                           arst_n,
   	input  logic [N-1:0][SAMPLE_WIDTH-1:0] data_in,
     output logic [N-1:0][SAMPLE_WIDTH-1:0] data_out
 );

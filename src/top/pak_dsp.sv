@@ -2,7 +2,8 @@
 
 module pak_dsp #(
     parameter DATA_WIDTH  = 16,
-    parameter COEFF_WIDTH = 16
+    parameter COEFF_WIDTH = 16,
+    parameter N           = 8    // number of FFT points
 )(
     input  logic                  clk,
     input  logic                  arst_n,
@@ -74,16 +75,17 @@ module pak_dsp #(
         .dst_ready_in  ( dst_ready_in_decim  )
     );
 
-    fft_8p #(
-        .DATA_WIDTH ( 16     ),
-        .N          ( 8      )
-    ) i_fft_8p (
-        .clk        ( clk    ),
-        .arst_n     ( arst_n ),
-        .x_real     (        ),   // real part of input
-        .x_imag     (        ),   // imag part of input
-        .X_real     (        ),   // real part of output
-        .X_imag     (        )    // imag part of output
+    fft_np
+    # (
+        .N             ( N          ),
+        .SAMPLE_WIDTH  ( DATA_WIDTH ),
+        .PHASE_WIDTH   ( 2          )
+        .DATA_WIDTH    (            )
+    ) (
+        .clk           ( clk        ),
+        .arst_n        ( arst_n     ),
+        .data_in       (            ),
+        .data_out      (            )
     );
 
 endmodule : pak_dsp

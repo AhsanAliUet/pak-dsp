@@ -11,7 +11,8 @@ INTERP_DIR	    = $(SRC_DIR)/interpolators
 INTERP_SRCS     = $(SRC_DIR)/interpolators/duc.sv $(SRC_DIR)/interpolators/fir_filter.sv $(SRC_DIR)/interpolators/interpolator_ctrl.sv $(SRC_DIR)/interpolators/interpolator.sv $(SRC_DIR)/interpolators/sat_trunc.sv
 INTERP_PKGS     = filter_pkg.sv
 DECIM_SRCS      = $(SRC_DIR)/decimators/ddc.sv $(SRC_DIR)/decimators/pp_decimator_2.sv $(SRC_DIR)/interpolators/fir_filter.sv $(SRC_DIR)/interpolators/sat_trunc.sv
-FFT_SRCS        = $(SRC_DIR)/fft_8p/pipeline.sv $(SRC_DIR)/fft_8p/cmul.sv $(SRC_DIR)/fft_8p/cadd.sv $(SRC_DIR)/fft_8p/bfly_2p.sv $(SRC_DIR)/fft_8p/fft_8p.sv
+FFT_8_SRCS      = $(SRC_DIR)/fft_8p/pipeline.sv $(SRC_DIR)/fft_8p/cmul.sv $(SRC_DIR)/fft_8p/cadd.sv $(SRC_DIR)/fft_8p/bfly_2p.sv $(SRC_DIR)/fft_8p/fft_8p.sv
+FFT_N_SRCS      = $(SRC_DIR)/fft_np/sat_pkg.sv $(SRC_DIR)/fft_np/butterfly.sv $(SRC_DIR)/fft_np/cmul.sv $(SRC_DIR)/fft_np/fft_np.sv $(SRC_DIR)/fft_np/tb_fft_np.sv 
 
 # dut parameters
 ifeq ($(DUT), duc)
@@ -36,7 +37,7 @@ ifeq ($(DUT), pipeline)
 	TOPLEVEL  = $(DUT)
 	MODULE    = pytests.test_$(DUT)
 	_PKGS     = 
-	_SRCS     = $(FFT_SRCS)
+	_SRCS     = $(FFT_8_SRCS)
 	SIM_BUILD = build/build_$(TOPLEVEL)
 endif
 
@@ -45,7 +46,7 @@ ifeq ($(DUT), cmul)
 	TOPLEVEL  = $(DUT)
 	MODULE    = pytests.test_$(DUT)
 	_PKGS     = 
-	_SRCS     = $(FFT_SRCS)
+	_SRCS     = $(FFT_8_SRCS)
 	SIM_BUILD = build/build_$(TOPLEVEL)
 endif
 
@@ -54,7 +55,7 @@ ifeq ($(DUT), cadd)
 	TOPLEVEL  = $(DUT)
 	MODULE    = pytests.test_$(DUT)
 	_PKGS     = 
-	_SRCS     = $(FFT_SRCS)
+	_SRCS     = $(FFT_8_SRCS)
 	SIM_BUILD = build/build_$(TOPLEVEL)
 endif
 
@@ -63,7 +64,7 @@ ifeq ($(DUT), bfly_2p)
 	TOPLEVEL  = $(DUT)
 	MODULE    = pytests.test_$(DUT)
 	_PKGS     = 
-	_SRCS     = $(FFT_SRCS)
+	_SRCS     = $(FFT_8_SRCS)
 	SIM_BUILD = build/build_$(TOPLEVEL)
 endif
 
@@ -72,7 +73,16 @@ ifeq ($(DUT), fft_8p)
 	TOPLEVEL  = $(DUT)
 	MODULE    = pytests.test_$(DUT)
 	_PKGS     = 
-	_SRCS     = $(FFT_SRCS)
+	_SRCS     = $(FFT_8_SRCS)
+	SIM_BUILD = build/build_$(TOPLEVEL)
+endif
+
+# dut parameters
+ifeq ($(DUT), fft_np)
+	TOPLEVEL  = tb_$(DUT)
+	MODULE    = pytests.test_$(DUT)
+	_PKGS     = 
+	_SRCS     = $(FFT_N_SRCS)
 	SIM_BUILD = build/build_$(TOPLEVEL)
 endif
 
@@ -81,7 +91,7 @@ ifeq ($(DUT), pak_dsp)
 	TOPLEVEL  = $(DUT)
 	MODULE    = pytests.test_$(DUT)
 	_PKGS     = $(INTERP_PKGS) $(DECIM_PKGS) $(FFT_PKGS)
-	_SRCS     = $(INTERP_SRCS) $(DECIM_SRCS) $(FFT_SRCS)
+	_SRCS     = $(INTERP_SRCS) $(DECIM_SRCS) $(FFT_8_SRCS)
 	SIM_BUILD = build/build_$(TOPLEVEL)
 endif
 
