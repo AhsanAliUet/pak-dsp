@@ -68,7 +68,6 @@ module pak_dsp #(
     // some internal signals
     logic src_ready_out_ddc;
     logic src_ready_out_duc;
-    logic mux_en;
 
     assign src_ready_out = src_ready_out_ddc | src_ready_out_duc;
 
@@ -78,7 +77,7 @@ module pak_dsp #(
     ) i_duc (
         .clk           ( clk                  ),
         .arst_n        ( arst_n               ),
-        .bypass        ( /*from RIF*/         ),
+        .bypass        ( gpr[0][4:2]          ),
         .src_data_in   ( src_data_in          ),
         .src_valid_in  ( src_valid_in         ),
         .src_ready_out ( src_ready_out_duc    ),
@@ -95,7 +94,7 @@ module pak_dsp #(
     ) i_ddc (
         .clk           ( clk                 ),
         .arst_n        ( arst_n              ),
-        .bypass        ( /*from RIF*/        ),
+        .bypass        ( gpr[0][4:2]         ),
         .src_data_in   ( src_data_in         ),
         .src_valid_in  ( src_valid_in        ),
         .src_ready_out ( src_ready_out_ddc   ),
@@ -104,9 +103,37 @@ module pak_dsp #(
         .dst_ready_in  ( src_ready_out_fir   )
     );
 
-    assign mux_en           = gpr[0][0];
-    assign src_data_in_fir  = mux_en ? dst_data_out_interp : dst_data_out_decim;
-    assign src_valid_in_fir = mux_en ? dst_valid_out_interp : dst_valid_out_decim;
+    always_comb
+    begin
+        case({gpr[0][1], gpr[0][0]})
+            2'b00:
+            begin
+                src_data_in_fir = '0;
+                src_valid_in_fir = '0;
+            end
+            2'b01:
+            begin
+                src_data_in_fir = dst_data_out_interp;
+                src_valid_in_fir = dst_valid_out_interp;
+            end
+            2'b10:
+            begin
+                src_data_in_fir = dst_data_out_decim;
+                src_valid_in_fir = dst_valid_out_decim;
+            end
+            2'b11:
+            begin
+                src_data_in_fir = '0;
+                src_valid_in_fir = '0;
+            end
+            default:
+            begin
+                src_data_in_fir = '0;
+                src_valid_in_fir = '0;
+            end
+        endcase
+    end
+
 
     fir_filter #(
         .INPUT_WORD_SIZE ( DATA_WIDTH        ),
@@ -115,6 +142,7 @@ module pak_dsp #(
     ) i_fir_filter (
         .clk             ( clk               ),
         .arst_n          ( arst_n            ),
+        .bypass          ( gpr[0][5]         ),
         .coeff           ( coeffs_fir        ),
         .data_in         ( src_data_in_fir   ),
         .valid_in        ( src_valid_in_fir  ),
@@ -136,6 +164,7 @@ module pak_dsp #(
         .X_imag        ( fft_X_imag )
     );
 
+    // Register Interface (RIF)
     memory_map #(
         .DATA_WIDTH      ( DATA_WIDTH      ),
         .NUM_GPR_REGS    ( NUM_GPR_REGS    ),
