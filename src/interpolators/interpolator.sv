@@ -1,23 +1,32 @@
 // configurable interpolation rate interpolator
 // supported interpolation rates are 2, 4 and 8.
 
+`ifdef VERILATOR
+    `include "defines_duc.svh"
+`else
+    `include "../include/defines_duc.svh"
+`endif
+
 module interpolator #(
     parameter  DATA_WIDTH   = 16,
     parameter  COEFF_WIDTH  = 16,
-    parameter  N_COEFFS_0   = 20,
-    parameter  N_COEFFS_1   = 20,
-    localparam OUTPUT_WIDTH = DATA_WIDTH + COEFF_WIDTH + $clog2(N_COEFFS_0-1)
+    parameter  COEFFS_0_ODD = `COEFFS_0_ODD_INTERP_3,
+    parameter  COEFFS_1_ODD = `COEFFS_1_ODD_INTERP_3,
+    parameter  N_COEFFS_0   = `N_COEFFS_0_INTERP_3,
+    parameter  N_COEFFS_1   = `N_COEFFS_1_INTERP_3,
+    parameter  signed [N_COEFFS_0-1:0][COEFF_WIDTH-1:0] COEFFS_0 = `COEFF_0_INTERP_3,
+    parameter  signed [N_COEFFS_0-1:0][COEFF_WIDTH-1:0] COEFFS_1 = `COEFF_1_INTERP_3,
+    localparam OUTPUT_WIDTH = DATA_WIDTH + COEFF_WIDTH + $clog2(N_COEFFS_0) + 1
 )(
-    input  logic                                                     clk,
-    input  logic                                                     arst_n,
-    input  logic                                                     bypass,
-    input  logic signed [N_COEFFS_0+N_COEFFS_1-1:0][COEFF_WIDTH-1:0] coeffs,
-    input  logic [DATA_WIDTH-1:0]                                    src_data_in,
-    input  logic                                                     src_valid_in,
-    output logic                                                     src_ready_out,
-    output logic [OUTPUT_WIDTH-1:0]                                  dst_data_out,
-    output logic                                                     dst_valid_out,
-    input  logic                                                     dst_ready_in
+    input  logic                           clk,
+    input  logic                           arst_n,
+    input  logic                           bypass,
+    input  logic signed [DATA_WIDTH-1:0]   src_data_in,
+    input  logic                           src_valid_in,
+    output logic                           src_ready_out,
+    output logic signed [OUTPUT_WIDTH-1:0] dst_data_out,
+    output logic                           dst_valid_out,
+    input  logic                           dst_ready_in
 );
 
     // For zero padding and sign extension of bypass data
@@ -42,33 +51,73 @@ module interpolator #(
     logic dst_valid;
     logic src_ready;
 
-    fir_filter # (
-        .INPUT_WORD_SIZE ( DATA_WIDTH      ),
-        .COEFF_WORD_SIZE ( COEFF_WIDTH     ),
-        .N_COEFFS        ( N_COEFFS_0      )
-    ) u_fir_filter_0 (
-        .clk             ( clk             ),
-        .arst_n          ( arst_n          ),
-        .coeff           ( coeffs[39:20]   ),
-        .data_in         ( src_data_in     ),
-        .valid_in        ( src_valid_in    ),
-        .data_out        ( filter_output0  ),
-        .valid_out       ( filter_val[0]   )
-    );
+    generate
+        if (COEFFS_0_ODD==0)
+        begin
+            sym_even_fir_filter #(
+                .INPUT_WORD_SIZE( DATA_WIDTH     ),
+                .COEFF_WORD_SIZE( COEFF_WIDTH    ),
+                .N_COEFFS       ( N_COEFFS_0     ),
+                .COEFFS         ( COEFFS_0       )
+            ) u_sym_even_fir_filter_0 (
+                .clk            ( clk            ),
+                .arst_n         ( arst_n         ),
+                .data_in        ( src_data_in    ),
+                .valid_in       ( src_valid_in   ),
+                .data_out       ( filter_output0 ),
+                .valid_out      ( filter_val[0]  )
+            );
+        end
+        else
+        begin
+            sym_odd_fir_filter #(
+                .INPUT_WORD_SIZE( DATA_WIDTH     ),
+                .COEFF_WORD_SIZE( COEFF_WIDTH    ),
+                .N_COEFFS       ( N_COEFFS_0     ),
+                .COEFFS         ( COEFFS_0       )
+            ) u_sym_odd_fir_filter_0 (
+                .clk            ( clk            ),
+                .arst_n         ( arst_n         ),
+                .data_in        ( src_data_in    ),
+                .valid_in       ( src_valid_in   ),
+                .data_out       ( filter_output0 ),
+                .valid_out      ( filter_val[0]  )
+            );
+        end
 
-    fir_filter # (
-        .INPUT_WORD_SIZE(DATA_WIDTH         ),
-        .COEFF_WORD_SIZE(COEFF_WIDTH        ),
-        .N_COEFFS       (N_COEFFS_1         )
-    ) u_fir_filter_1 (
-        .clk            (clk                ),
-        .arst_n         (arst_n             ),
-        .coeff          (coeffs[19:0]       ),
-        .data_in        (src_data_in        ),
-        .valid_in       (src_valid_in       ),
-        .data_out       (filter_output1     ),
-        .valid_out      (filter_val[1]      )
-    );
+        if (COEFFS_1_ODD==0)
+        begin
+            sym_even_fir_filter #(
+                .INPUT_WORD_SIZE( DATA_WIDTH     ),
+                .COEFF_WORD_SIZE( COEFF_WIDTH    ),
+                .N_COEFFS       ( N_COEFFS_1     ),
+                .COEFFS         ( COEFFS_1       )
+            ) u_sym_even_fir_filter_1 (
+                .clk            ( clk            ),
+                .arst_n         ( arst_n         ),
+                .data_in        ( src_data_in    ),
+                .valid_in       ( src_valid_in   ),
+                .data_out       ( filter_output1 ),
+                .valid_out      ( filter_val[1]  )
+            );
+        end
+        else
+        begin
+            sym_odd_fir_filter #(
+                .INPUT_WORD_SIZE( DATA_WIDTH     ),
+                .COEFF_WORD_SIZE( COEFF_WIDTH    ),
+                .N_COEFFS       ( N_COEFFS_1     ),
+                .COEFFS         ( COEFFS_1       )
+            ) u_sym_odd_fir_filter_1 (
+                .clk            ( clk            ),
+                .arst_n         ( arst_n         ),
+                .data_in        ( src_data_in    ),
+                .valid_in       ( src_valid_in   ),
+                .data_out       ( filter_output1 ),
+                .valid_out      ( filter_val[1]  )
+            );
+        end
+    endgenerate
 
     assign filter_output    = dm ? filter_output1_q : filter_output0_q;
 

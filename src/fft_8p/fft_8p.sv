@@ -88,8 +88,10 @@ module fft_8p #(
                 .clk          ( clk                                    ),
                 .arst_n       ( arst_n                                 ),
                 .en_in        ( 1                                      ),
+                .src_valid_in ( 1                                      ),
                 .src_data_in  ( {stage_1_imag[i], stage_1_real[i]    } ),
-                .dst_data_out ( {stage_1_imag_q[i], stage_1_real_q[i]} )
+                .dst_data_out ( {stage_1_imag_q[i], stage_1_real_q[i]} ),
+                .dst_valid_out(                                        )
             );
         end
     endgenerate
@@ -97,7 +99,7 @@ module fft_8p #(
     // stage 2
     generate
         for (genvar i = 0; i < N/4; i = i + 1)
-        begin : stage_2
+        begin : stage_2_0
             bfly_2p #(
                 .DATA_WIDTH ( DATA_WIDTH                         )
             ) i_bfly_2p (
@@ -115,7 +117,7 @@ module fft_8p #(
         end
 
         for (genvar j = N/2; j < N/2+2; j++)
-        begin : stage_2
+        begin : stage_2_1
             bfly_2p #(
                 .DATA_WIDTH ( DATA_WIDTH                             )
             ) i_bfly_2p (
@@ -146,7 +148,9 @@ module fft_8p #(
                 .arst_n       ( arst_n                                 ),
                 .en_in        ( 1                                      ),
                 .src_data_in  ( {stage_2_imag[i], stage_2_real[i]    } ),
-                .dst_data_out ( {stage_2_imag_q[i], stage_2_real_q[i]} )
+                .src_valid_in ( 1                                      ),
+                .dst_data_out ( {stage_2_imag_q[i], stage_2_real_q[i]} ),
+                .dst_valid_out(                                        )
             );
         end
     endgenerate

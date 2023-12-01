@@ -11,13 +11,17 @@ module fir_filter #(
     input   logic signed  [N_COEFFS-1:0][COEFF_WORD_SIZE-1:0] coeff,
     input   logic signed  [INPUT_WORD_SIZE-1:0]               data_in,
     input   logic                                             valid_in,
+    output  logic                                             src_ready_out,
     output  logic signed  [OUTPUT_WORD_SIZE-1:0]              data_out,
-    output  logic                                             valid_out
+    output  logic                                             valid_out,
+    input   logic                                             dst_ready_in
 );
 
     localparam DELAY_LINE_SIZE = N_COEFFS-1;
 
     logic signed [INPUT_WORD_SIZE-1:0] delay_line [DELAY_LINE_SIZE-1:0];
+
+    assign src_ready_out = dst_ready_in;
 
     always_ff @ (posedge clk, negedge arst_n)
     begin
