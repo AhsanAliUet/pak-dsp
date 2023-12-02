@@ -6,7 +6,8 @@ module pak_dsp #(
     parameter  N               = 8,    // number of FFT points
     localparam NUM_GPR_REGS    = 1,
     localparam NUM_COEFFS_REGS = 30,
-    localparam TOTAL_REGS      = NUM_GPR_REGS +  NUM_COEFFS_REGS
+    localparam NUM_FFT_REGS    = 32,
+    localparam TOTAL_REGS      = NUM_GPR_REGS +  NUM_COEFFS_REGS + NUM_FFT_REGS
 )(
     input  logic                                              clk,
     input  logic                                              arst_n,
@@ -17,25 +18,15 @@ module pak_dsp #(
     input  logic signed                      [DATA_WIDTH-1:0] wdata,
     output logic signed                      [DATA_WIDTH-1:0] rdata,
 
-    // src side ports
+    // src side ports for interpolators and decimators
     input  logic signed [DATA_WIDTH-1:0]                      src_data_in,
     input  logic                                              src_valid_in,
     output logic                                              src_ready_out,
 
-    // dst side ports
+    // dst side ports for interpolators and decimators
     output logic signed [DATA_WIDTH-1:0]                      dst_data_out,
     output logic                                              dst_valid_out,
-    input  logic                                              dst_ready_in,
-
-    // fft's src side ports
-    input  logic [DATA_WIDTH-1:0] src_data_in_fft,
-    input  logic                  src_valid_in_fft,
-    output logic                  src_ready_out_fft,
-
-    // fft's dst side ports
-    output logic [DATA_WIDTH-1:0] dst_data_out_fft,
-    output logic                  dst_valid_out_fft,
-    input  logic                  dst_ready_in_fft
+    input  logic                                              dst_ready_in
 );
 
     localparam OUTPUT_WORD_SIZE_FIR = 2*DATA_WIDTH + $clog2(NUM_COEFFS_REGS - 1);
@@ -44,14 +35,14 @@ module pak_dsp #(
     logic signed [NUM_COEFFS_REGS-1:0][DATA_WIDTH-1:0] coeffs_fir; // coefficients for FIR
 
     // interpolator's dst side signals
-    logic signed [DATA_WIDTH-1:0] dst_data_out_interp;
-    logic                         dst_valid_out_interp;
-    logic                         dst_ready_in_interp;
+    logic signed [DATA_WIDTH-1:0]           dst_data_out_interp;
+    logic                                   dst_valid_out_interp;
+    logic                                   dst_ready_in_interp;
 
     // decimator's dst side signals
-    logic signed [DATA_WIDTH-1:0] dst_data_out_decim;
-    logic                         dst_valid_out_decim;
-    logic                         dst_ready_in_decim;
+    logic signed [DATA_WIDTH-1:0]           dst_data_out_decim;
+    logic                                   dst_valid_out_decim;
+    logic                                   dst_ready_in_decim;
 
     // fir filter related signals
     logic signed [DATA_WIDTH-1:0]           src_data_in_fir;
@@ -60,14 +51,14 @@ module pak_dsp #(
     logic signed [OUTPUT_WORD_SIZE_FIR-1:0] dst_data_out_fir;
 
     // fft signals
-    logic signed [DATA_WIDTH-1:0] fft_x_real [N-1:0];
-    logic signed [DATA_WIDTH-1:0] fft_x_imag [N-1:0];
-    logic signed [DATA_WIDTH-1:0] fft_X_real [N-1:0];
-    logic signed [DATA_WIDTH-1:0] fft_X_imag [N-1:0];
+    logic signed [N-1:0][DATA_WIDTH-1:0]    fft_x_real;
+    logic signed [N-1:0][DATA_WIDTH-1:0]    fft_x_imag;
+    logic signed [N-1:0][DATA_WIDTH-1:0]    fft_X_real;
+    logic signed [N-1:0][DATA_WIDTH-1:0]    fft_X_imag;
 
     // some internal signals
-    logic src_ready_out_ddc;
-    logic src_ready_out_duc;
+    logic                                   src_ready_out_ddc;
+    logic                                   src_ready_out_duc;
 
     assign src_ready_out = src_ready_out_ddc | src_ready_out_duc;
 
@@ -166,18 +157,23 @@ module pak_dsp #(
 
     // Register Interface (RIF)
     memory_map #(
-        .DATA_WIDTH      ( DATA_WIDTH      ),
-        .NUM_GPR_REGS    ( NUM_GPR_REGS    ),
-        .NUM_COEFFS_REGS ( NUM_COEFFS_REGS )
+        .DATA_WIDTH           ( DATA_WIDTH      ),
+        .NUM_GPR_REGS         ( NUM_GPR_REGS    ),
+        .NUM_COEFFS_REGS      ( NUM_COEFFS_REGS ),
+        .NUM_FFT_REGS         ( NUM_FFT_REGS    )
     ) i_memory_map (
-        .clk             ( clk             ),
-        .arst_n          ( arst_n          ),
-        .addr            ( addr            ),
-        .write_en        ( write_en        ),
-        .wdata           ( wdata           ),
-        .rdata           ( rdata           ),
-        .gpr             ( gpr             ),
-        .coeffs          ( coeffs_fir      )
+        .clk                  ( clk             ),
+        .arst_n               ( arst_n          ),
+        .addr                 ( addr            ),
+        .write_en             ( write_en        ),
+        .wdata                ( wdata           ),
+        .rdata                ( rdata           ),
+        .gpr                  ( gpr             ),
+        .coeffs               ( coeffs_fir      ),
+        .fft_real_input_regs  ( fft_x_real      ),
+        .fft_imag_input_regs  ( fft_x_real      ),
+        .fft_real_output_regs ( fft_X_real      ),
+        .fft_imag_output_regs ( fft_X_imag      )
     );
 
 endmodule : pak_dsp

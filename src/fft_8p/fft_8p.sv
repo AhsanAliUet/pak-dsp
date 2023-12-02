@@ -4,12 +4,14 @@ module fft_8p #(
     parameter DATA_WIDTH = 16,    // for each real and imaginary
     parameter N          = 8      // N points
 )(
-    input  logic                         clk,
-    input  logic                         arst_n,
-    input  logic signed [DATA_WIDTH-1:0] x_real [N-1:0],
-    input  logic signed [DATA_WIDTH-1:0] x_imag [N-1:0],
-    output logic signed [DATA_WIDTH-1:0] X_real [N-1:0],
-    output logic signed [DATA_WIDTH-1:0] X_imag [N-1:0]
+    input  logic                                 clk,
+    input  logic                                 arst_n,
+    input  logic                                 start,
+    output logic                                 done,
+    input  logic signed  [N-1:0][DATA_WIDTH-1:0] x_real,
+    input  logic signed  [N-1:0][DATA_WIDTH-1:0] x_imag,
+    output logic signed  [N-1:0][DATA_WIDTH-1:0] X_real,
+    output logic signed  [N-1:0][DATA_WIDTH-1:0] X_imag
 );
 
     logic signed [N/2-1:0][DATA_WIDTH-1:0] W_8_real;
