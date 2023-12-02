@@ -147,7 +147,7 @@ module pak_dsp #(
     fft_8p #(
         .DATA_WIDTH    ( DATA_WIDTH ),
         .N             ( N          )
-    ) i_fft_np (
+    ) i_fft_8p (
         .clk           ( clk        ),
         .arst_n        ( arst_n     ),
         .start         ( gpr[0][6]  ),

@@ -16,6 +16,11 @@ module tb_pak_dsp (
     logic [N-1:0][SAMPLE_WIDTH-1:0] data_in;
     logic [N-1:0][SAMPLE_WIDTH-1:0] data_out;
 
+    logic [5:0] addr;
+    logic write_en;
+    logic [15:0] wdata;
+    logic [15:0] rdata;
+
     pak_dsp # (
         .DATA_WIDTH        ( DATA_WIDTH   ),
         .COEFF_WIDTH       ( SAMPLE_WIDTH ),
@@ -25,10 +30,10 @@ module tb_pak_dsp (
         .arst_n            ( arst_n       ),
         
         // read write interface for memory
-        .addr              (              ),
-        .write_en          (              ),
-        .wdata             (              ),
-        .rdata             (              ),
+        .addr              ( addr         ),
+        .write_en          ( write_en     ),
+        .wdata             ( wdata        ),
+        .rdata             ( rdata        ),
 
         // src side ports
         .src_data_in       (              ),
@@ -46,7 +51,7 @@ module tb_pak_dsp (
         repeat(N)
         begin
             fork
-                // driver();
+                driver();
                 // monitor();
             join
             @(posedge clk);
@@ -54,6 +59,16 @@ module tb_pak_dsp (
     end
 
     task driver();
+        write_en = 1;
+        wdata = 1;
+        for (int i = 31; i < 47; i++)
+        begin
+            addr = i;
+            @(posedge clk);
+        end
+        @(posedge clk);
+        addr = 0;
+        wdata = 1<<6;
     endtask
 
     task monitor();

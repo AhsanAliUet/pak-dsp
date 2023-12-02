@@ -24,7 +24,7 @@ async def monitor(dut):
 
 @cocotb.test()
 async def test_pak_dsp(dut):
-    clock = Clock(dut.clk, 2, units="ns") # create 2ns period clock on port clk
+    clock = Clock(dut.clk, 1, units="ns") # create 2ns period clock on port clk
     cocotb.start_soon(clock.start()) # start the clock
 
     # Reset

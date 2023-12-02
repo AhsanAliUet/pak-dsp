@@ -181,5 +181,5 @@ module fft_8p #(
 
     assign X_real = stage_3_real;
     assign X_imag = stage_3_imag;
-
+    assign done   = done_stage_1 & done_stage_2;
 endmodule : fft_8p
