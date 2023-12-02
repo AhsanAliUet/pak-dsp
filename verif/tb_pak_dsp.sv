@@ -9,7 +9,7 @@ module tb_pak_dsp (
         return shortint'(x*(2**fw));
     endfunction
 
-    localparam N = 4;
+    localparam N = 8;
     localparam SAMPLE_WIDTH = 16;
     localparam DATA_WIDTH = 16;
 
@@ -38,17 +38,7 @@ module tb_pak_dsp (
         // dst side ports
         .dst_data_out      (              ),
         .dst_valid_out     (              ),
-        .dst_ready_in      (              ),
-
-        // fft's src side ports
-        .src_data_in_fft   (              ),
-        .src_valid_in_fft  (              ),
-        .src_ready_out_fft (              ),
-
-        // fft's dst side ports
-        .dst_data_out_fft  (              ),
-        .dst_valid_out_fft (              ),
-        .dst_ready_in_fft  (              )
+        .dst_ready_in      (              )
     );
 
     initial

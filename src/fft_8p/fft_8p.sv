@@ -18,27 +18,32 @@ module fft_8p #(
     logic signed [N/2-1:0][DATA_WIDTH-1:0] W_8_imag;
 
 
-    logic signed [DATA_WIDTH-1:0] stage_1_real   [N-1:0];
-    logic signed [DATA_WIDTH-1:0] stage_1_imag   [N-1:0];
-    logic signed [DATA_WIDTH-1:0] stage_1_real_q [N-1:0];
-    logic signed [DATA_WIDTH-1:0] stage_1_imag_q [N-1:0];
+    logic signed [N-1:0][DATA_WIDTH-1:0] stage_1_real;
+    logic signed [N-1:0][DATA_WIDTH-1:0] stage_1_imag;
+    logic signed [N-1:0][DATA_WIDTH-1:0] stage_1_real_q;
+    logic signed [N-1:0][DATA_WIDTH-1:0] stage_1_imag_q;
 
-    logic signed [DATA_WIDTH-1:0] stage_2_real   [N-1:0];
-    logic signed [DATA_WIDTH-1:0] stage_2_imag   [N-1:0];
-    logic signed [DATA_WIDTH-1:0] stage_2_real_q [N-1:0];
-    logic signed [DATA_WIDTH-1:0] stage_2_imag_q [N-1:0];
+    logic signed [N-1:0][DATA_WIDTH-1:0] stage_2_real;
+    logic signed [N-1:0][DATA_WIDTH-1:0] stage_2_imag;
+    logic signed [N-1:0][DATA_WIDTH-1:0] stage_2_real_q;
+    logic signed [N-1:0][DATA_WIDTH-1:0] stage_2_imag_q;
 
-    logic signed [DATA_WIDTH-1:0] stage_3_real   [N-1:0];
-    logic signed [DATA_WIDTH-1:0] stage_3_imag   [N-1:0];
+    logic signed [N-1:0][DATA_WIDTH-1:0] stage_3_real;
+    logic signed [N-1:0][DATA_WIDTH-1:0] stage_3_imag;
 
-    assign W_8_real[0] = 16'h0100;   // 1      - j0
-    assign W_8_imag[0] = 16'h0000;   // 1      - j0
-    assign W_8_real[1] = 16'h00b5;   // 0.707  - j0.707
-    assign W_8_imag[1] = 16'hff4b;   // 0.707  - j0.707
-    assign W_8_real[2] = 16'h0000;   // 0      - j1
-    assign W_8_imag[2] = 16'hff00;   // 0      - j1
-    assign W_8_real[3] = 16'hff4b;   // -0.707 - j0.707
-    assign W_8_imag[3] = 16'hff4b;   // -0.707 - j0.707
+    logic                         done_stage_1;
+    logic                         done_stage_2;
+
+    // assign W_8_real[0] = 16'h0100;   // 1      - j0
+    // assign W_8_imag[0] = 16'h0000;   // 1      - j0
+    // assign W_8_real[1] = 16'h00b5;   // 0.707  - j0.707
+    // assign W_8_imag[1] = 16'hff4b;   // 0.707  - j0.707
+    // assign W_8_real[2] = 16'h0000;   // 0      - j1
+    // assign W_8_imag[2] = 16'hff00;   // 0      - j1
+    // assign W_8_real[3] = 16'hff4b;   // -0.707 - j0.707
+    // assign W_8_imag[3] = 16'hff4b;   // -0.707 - j0.707
+    assign W_8_real = {16'hff4b, 16'h0000, 16'h00b5, 16'h0100};
+    assign W_8_imag = {16'hff4b, 16'hff00, 16'hff4b, 16'h0000};
 
     function automatic logic [$clog2(N)-1:0] bit_reversal(
         input [$clog2(N)-1:0] data_in
@@ -86,10 +91,10 @@ module fft_8p #(
                 .clk          ( clk                                    ),
                 .arst_n       ( arst_n                                 ),
                 .en_in        ( 1                                      ),
-                .src_valid_in ( 1                                      ),
+                .src_valid_in ( start                                  ),
                 .src_data_in  ( {stage_1_imag[i], stage_1_real[i]    } ),
                 .dst_data_out ( {stage_1_imag_q[i], stage_1_real_q[i]} ),
-                .dst_valid_out(                                        )
+                .dst_valid_out( done_stage_1                           )
             );
         end
     endgenerate
@@ -146,9 +151,9 @@ module fft_8p #(
                 .arst_n       ( arst_n                                 ),
                 .en_in        ( 1                                      ),
                 .src_data_in  ( {stage_2_imag[i], stage_2_real[i]    } ),
-                .src_valid_in ( 1                                      ),
+                .src_valid_in ( done_stage_1                           ),
                 .dst_data_out ( {stage_2_imag_q[i], stage_2_real_q[i]} ),
-                .dst_valid_out(                                        )
+                .dst_valid_out( done_stage_2                           )
             );
         end
     endgenerate

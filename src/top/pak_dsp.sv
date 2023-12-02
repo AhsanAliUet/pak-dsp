@@ -59,6 +59,7 @@ module pak_dsp #(
     // some internal signals
     logic                                   src_ready_out_ddc;
     logic                                   src_ready_out_duc;
+    logic                                   done_fft;
 
     assign src_ready_out = src_ready_out_ddc | src_ready_out_duc;
 
@@ -149,6 +150,8 @@ module pak_dsp #(
     ) i_fft_np (
         .clk           ( clk        ),
         .arst_n        ( arst_n     ),
+        .start         ( gpr[0][6]  ),
+        .done          ( done_fft   ),
         .x_real        ( fft_x_real ),
         .x_imag        ( fft_x_imag ),
         .X_real        ( fft_X_real ),
@@ -164,6 +167,7 @@ module pak_dsp #(
     ) i_memory_map (
         .clk                  ( clk             ),
         .arst_n               ( arst_n          ),
+        .fft_done             ( done_fft        ),
         .addr                 ( addr            ),
         .write_en             ( write_en        ),
         .wdata                ( wdata           ),
@@ -171,7 +175,7 @@ module pak_dsp #(
         .gpr                  ( gpr             ),
         .coeffs               ( coeffs_fir      ),
         .fft_real_input_regs  ( fft_x_real      ),
-        .fft_imag_input_regs  ( fft_x_real      ),
+        .fft_imag_input_regs  ( fft_x_imag      ),
         .fft_real_output_regs ( fft_X_real      ),
         .fft_imag_output_regs ( fft_X_imag      )
     );

@@ -107,8 +107,8 @@ module memory_map #(
         begin
             for (int i = 0; i < NUM_FFT_REGS/4; i++)
             begin
-                Regs[NUM_GPR_REGS+NUM_COEFFS_REGS+NUM_FFT_REGS/2+i]                <= fft_real_output_regs;
-                Regs[NUM_GPR_REGS+NUM_COEFFS_REGS+NUM_FFT_REGS/2+NUM_FFT_REGS/4+i] <= fft_imag_output_regs;
+                Regs[NUM_GPR_REGS+NUM_COEFFS_REGS+NUM_FFT_REGS/2+i]                <= fft_real_output_regs[i];
+                Regs[NUM_GPR_REGS+NUM_COEFFS_REGS+NUM_FFT_REGS/2+NUM_FFT_REGS/4+i] <= fft_imag_output_regs[i];
             end
         end
     end
