@@ -8,11 +8,7 @@ module tb_pak_dsp (
 		input reg signed [15:0] inp;
 		sv2v_cast_16_signed = inp;
 	endfunction
-	function signed [15:0] float2fix16;
-		input real x;
-		input reg signed [15:0] fw;
-		float2fix16 = sv2v_cast_16_signed(x * (2 ** fw));
-	endfunction
+
 	localparam N = 8;
 	localparam SAMPLE_WIDTH = 16;
 	localparam DATA_WIDTH = 16;

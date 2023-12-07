@@ -116,8 +116,8 @@ module interpolator (
 	assign src_ready_out = (bypass ? dst_ready_in : src_ready);
 	always @(posedge clk or negedge arst_n)
 		if (~arst_n) begin
-			filter_output0_q <= 1'sb0;
-			filter_output1_q <= 1'sb0;
+			filter_output0_q <= 0;
+			filter_output1_q <= 0;
 		end
 		else if (en_out) begin
 			filter_output0_q <= filter_output0;

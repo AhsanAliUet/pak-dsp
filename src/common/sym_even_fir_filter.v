@@ -57,7 +57,7 @@ module sym_even_fir_filter (
 		if (~arst_n) begin : sv2v_autoblock_1
 			reg signed [31:0] i;
 			for (i = 0; i <= ((2 * N_COEFFS) - 2); i = i + 1)
-				delay_line[i] <= 1'sb0;
+				delay_line[i] <= 0;
 		end
 		else if (valid_in) begin
 			begin : sv2v_autoblock_2

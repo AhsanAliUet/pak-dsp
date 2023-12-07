@@ -18,15 +18,12 @@ module pipeline (
 	output wire signed [DATA_WIDTH - 1:0] dst_data_out;
 	output wire dst_valid_out;
 	reg [(DATA_WIDTH >= 0 ? (NUM_STAGES * (DATA_WIDTH + 1)) - 1 : (NUM_STAGES * (1 - DATA_WIDTH)) + (DATA_WIDTH - 1)):(DATA_WIDTH >= 0 ? 0 : DATA_WIDTH + 0)] buffer;
-	function automatic [(DATA_WIDTH >= 0 ? DATA_WIDTH + 1 : 1 - DATA_WIDTH) - 1:0] sv2v_cast_E28BA;
-		input reg [(DATA_WIDTH >= 0 ? DATA_WIDTH + 1 : 1 - DATA_WIDTH) - 1:0] inp;
-		sv2v_cast_E28BA = inp;
-	endfunction
+
 	generate
 		if ((NUM_STAGES > 0) && (BYPASS != 1)) begin : genblk1
 			always @(posedge clk or negedge arst_n)
 				if (~arst_n)
-					buffer <= {NUM_STAGES {sv2v_cast_E28BA(1'sb0)}};
+					buffer <= 0;
 				else if (en_in) begin
 					begin : sv2v_autoblock_1
 						reg signed [31:0] i;

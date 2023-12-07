@@ -85,25 +85,23 @@ module pak_dsp (
 	always @(*)
 		case ({gpr[1], gpr[0]})
 			2'b00: begin
-				src_data_in_fir = 1'sb0;
-				src_valid_in_fir = 1'sb0;
+				src_data_in_fir  = 0;
+				src_valid_in_fir = 0;
 			end
 			2'b01: begin
-				src_data_in_fir = dst_data_out_interp;
+				src_data_in_fir  = dst_data_out_interp;
 				src_valid_in_fir = dst_valid_out_interp;
 			end
 			2'b10: begin
-				src_data_in_fir = dst_data_out_decim;
+				src_data_in_fir  = dst_data_out_decim;
 				src_valid_in_fir = dst_valid_out_decim;
 			end
-			2'b11: begin
-				src_data_in_fir = 1'sb0;
-				src_valid_in_fir = 1'sb0;
+			default:
+			begin
+				src_data_in_fir  = 0;
+				src_valid_in_fir = 0;
 			end
-			default: begin
-				src_data_in_fir = 1'sb0;
-				src_valid_in_fir = 1'sb0;
-			end
+
 		endcase
 	fir_filter #(
 		.INPUT_WORD_SIZE(DATA_WIDTH),

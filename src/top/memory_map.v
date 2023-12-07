@@ -36,7 +36,7 @@ module memory_map (
 		if (~arst_n) begin : sv2v_autoblock_1
 			reg signed [31:0] j;
 			for (j = 0; j < NUM_GPR_REGS; j = j + 1)
-				gpr <= 1'sb0;
+				gpr <= 0;
 		end
 		else begin : sv2v_autoblock_2
 			reg signed [31:0] j;
@@ -47,7 +47,7 @@ module memory_map (
 		if (~arst_n) begin : sv2v_autoblock_3
 			reg signed [31:0] i;
 			for (i = 0; i < NUM_COEFFS_REGS; i = i + 1)
-				coeffs[i * DATA_WIDTH+:DATA_WIDTH] <= 1'sb0;
+				coeffs[i * DATA_WIDTH+:DATA_WIDTH] <= 0;
 		end
 		else begin : sv2v_autoblock_4
 			reg signed [31:0] i;
@@ -59,8 +59,8 @@ module memory_map (
 			reg signed [31:0] i;
 			for (i = 0; i < (NUM_FFT_REGS / 4); i = i + 1)
 				begin
-					fft_real_input_regs[i * DATA_WIDTH+:DATA_WIDTH] <= 1'sb0;
-					fft_imag_input_regs[i * DATA_WIDTH+:DATA_WIDTH] <= 1'sb0;
+					fft_real_input_regs[i * DATA_WIDTH+:DATA_WIDTH] <= 0;
+					fft_imag_input_regs[i * DATA_WIDTH+:DATA_WIDTH] <= 0;
 				end
 		end
 		else begin : sv2v_autoblock_6
@@ -72,13 +72,10 @@ module memory_map (
 				end
 		end
 	assign rdata = (~write_en ? Regs[((TOTAL_REGS - 1) - addr) * DATA_WIDTH+:DATA_WIDTH] : {DATA_WIDTH {1'sb0}});
-	function automatic [DATA_WIDTH - 1:0] sv2v_cast_E07C2;
-		input reg [DATA_WIDTH - 1:0] inp;
-		sv2v_cast_E07C2 = inp;
-	endfunction
+
 	always @(posedge clk or negedge arst_n)
 		if (~arst_n)
-			Regs <= {TOTAL_REGS {sv2v_cast_E07C2(1'sb0)}};
+			Regs <= 0;
 		else if (write_en)
 			Regs[((TOTAL_REGS - 1) - addr) * DATA_WIDTH+:DATA_WIDTH] <= wdata;
 		else if (fft_done) begin : sv2v_autoblock_7

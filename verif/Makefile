@@ -8,19 +8,19 @@ SRC_DIR         = $(TOP_DIR)/src
 DECIM_DIR	    = $(SRC_DIR)/decimators
 INTERP_DIR	    = $(SRC_DIR)/interpolators
 
-INTERP_SRCS     = $(SRC_DIR)/interpolators/duc.sv $(SRC_DIR)/interpolators/interpolator_ctrl.sv $(SRC_DIR)/interpolators/interpolator.sv
-INTERP_PKGS     = $(SRC_DIR)/interpolators/filter_pkg.sv
-DECIM_SRCS      = $(SRC_DIR)/decimators/ddc.sv $(SRC_DIR)/decimators/pp_decimator_2.sv
-FFT_8_SRCS      = $(SRC_DIR)/fft_8p/pipeline.sv $(SRC_DIR)/fft_8p/cadd.sv $(SRC_DIR)/fft_8p/bfly_2p.sv $(SRC_DIR)/fft_8p/fft_8p.sv
-FFT_N_SRCS      = $(SRC_DIR)/fft_np/sat_pkg.sv $(SRC_DIR)/fft_np/butterfly.sv $(SRC_DIR)/fft_np/fft_np.sv $(SRC_DIR)/fft_np/converters_pkg.sv $(SRC_DIR)/fft_np/tb_fft_np.sv
-COMMON_SRCS     = $(SRC_DIR)/common/sat_trunc.sv $(SRC_DIR)/interpolators/fir_filter.sv $(SRC_DIR)/common/sym_even_fir_filter.sv $(SRC_DIR)/common/sym_odd_fir_filter.sv $(SRC_DIR)/fft_8p/cmul.sv
-TOP_SRCS        = $(INTERP_PKGS) $(INTERP_SRCS) $(DECIM_SRCS) $(FFT_8_SRCS) $(FFT_N_SRCS) $(COMMON_SRCS) tb_pak_dsp.sv $(SRC_DIR)/top/pak_dsp.sv $(SRC_DIR)/top/memory_map.sv
+INTERP_SRCS     = $(SRC_DIR)/interpolators/duc.v $(SRC_DIR)/interpolators/interpolator_ctrl.v $(SRC_DIR)/interpolators/interpolator.v
+INTERP_PKGS     = $(SRC_DIR)/interpolators/filter_pkg.v
+DECIM_SRCS      = $(SRC_DIR)/decimators/ddc.v $(SRC_DIR)/decimators/pp_decimator_2.v
+FFT_8_SRCS      = $(SRC_DIR)/fft_8p/pipeline.v $(SRC_DIR)/fft_8p/cadd.v $(SRC_DIR)/fft_8p/bfly_2p.v $(SRC_DIR)/fft_8p/fft_8p.v
+FFT_N_SRCS      = $(SRC_DIR)/fft_np/sat_pkg.v $(SRC_DIR)/fft_np/butterfly.v $(SRC_DIR)/fft_np/fft_np.v $(SRC_DIR)/fft_np/converters_pkg.v $(SRC_DIR)/fft_np/tb_fft_np.v
+COMMON_SRCS     = $(SRC_DIR)/common/sat_trunc.v $(SRC_DIR)/interpolators/fir_filter.v $(SRC_DIR)/common/sym_even_fir_filter.v $(SRC_DIR)/common/sym_odd_fir_filter.v $(SRC_DIR)/fft_8p/cmul.v
+TOP_SRCS        = $(INTERP_PKGS) $(INTERP_SRCS) $(DECIM_SRCS) $(FFT_8_SRCS) $(FFT_N_SRCS) $(COMMON_SRCS) tb_pak_dsp.v $(SRC_DIR)/top/pak_dsp.v $(SRC_DIR)/top/memory_map.v
 
 # dut parameters
 ifeq ($(DUT), duc)
 	TOPLEVEL  = $(DUT)
 	MODULE    = pytests.test_$(DUT)
-	_PKGS     = $(SRC_DIR)/interpolators/filter_pkg.sv
+	_PKGS     = $(SRC_DIR)/interpolators/filter_pkg.v
 	_SRCS     = $(COMMON_SRCS) $(INTERP_SRCS)
 	SIM_BUILD = build/build_$(TOPLEVEL)
 endif
@@ -29,7 +29,7 @@ endif
 ifeq ($(DUT), ddc)
 	TOPLEVEL  = $(DUT)
 	MODULE    = pytests.test_$(DUT)
-	_PKGS     = $(SRC_DIR)/interpolators/filter_pkg.sv
+	_PKGS     = $(SRC_DIR)/interpolators/filter_pkg.v
 	_SRCS     = $(COMMON_SRCS) $(DECIM_SRCS)
 	SIM_BUILD = build/build_$(TOPLEVEL)
 endif
