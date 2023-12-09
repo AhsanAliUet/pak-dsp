@@ -1,0 +1,49 @@
+{
+	"PDK": "gf180mcuD",
+	"STD_CELL_LIBRARY": "gf180mcu_fd_sc_mcu7t5v0",
+	"DESIGN_NAME": "user_proj_pak_dsp",
+	"VERILOG_FILES": [
+		"dir::../../verilog/rtl/defines.v",
+		"dir::../../verilog/rtl/defines_ddc.v",
+		"dir::../../verilog/rtl/defines_duc.v",
+		"dir::../../verilog/rtl/bfly_2p.v",
+		"dir::../../verilog/rtl/cadd.v",
+		"dir::../../verilog/rtl/cmul.v",
+		"dir::../../verilog/rtl/duc.v",
+		"dir::../../verilog/rtl/fft_8p.v",
+		"dir::../../verilog/rtl/fir_filter.v",
+		"dir::../../verilog/rtl/interpolator_ctrl.v",
+		"dir::../../verilog/rtl/interpolator.v",
+		"dir::../../verilog/rtl/memory_map.v",
+		"dir::../../verilog/rtl/pak_dsp.v",
+		"dir::../../verilog/rtl/pipeline.v",
+		"dir::../../verilog/rtl/pp_decimator_2.v",
+		"dir::../../verilog/rtl/sat_trunc.v",
+		"dir::../../verilog/rtl/ssd.v",
+		"dir::../../verilog/rtl/sym_even_fir_filter.v",
+		"dir::../../verilog/rtl/sym_odd_fir_filter.v",
+		"dir::../../verilog/rtl/sym_odd_fir_filter.v"
+	],
+	"DESIGN_IS_CORE": 0,
+	"CLOCK_PORT": "wb_clk_i",
+	"CLOCK_NET": "counter.clk",
+	"CLOCK_PERIOD": "24.0",
+	"FP_SIZING": "absolute",
+	"DIE_AREA": "0 0 200 3000",
+	"FP_PIN_ORDER_CFG": "dir::pin_order.cfg",
+	"PL_BASIC_PLACEMENT": 0,
+	"PL_TARGET_DENSITY": 0.45,
+	"FP_CORE_UTIL": 40,
+	"MAX_FANOUT_CONSTRAINT": 4,
+	"RT_MAX_LAYER": "Metal4",
+	"VDD_NETS": [
+		"vdd"
+	],
+	"GND_NETS": [
+		"vss"
+	],
+    "BASE_SDC_FILE": "dir::base_user_proj_pak_dsp.sdc",
+	"RUN_HEURISTIC_DIODE_INSERTION": 1,
+	"RUN_CVC": 1,
+	"QUIT_ON_LINTER_ERRORS": 0
+}
