@@ -15,9 +15,9 @@
 # SPDX-License-Identifier: Apache-2.0
 MAKEFLAGS+=--warn-undefined-variables
 
-export CARAVEL_ROOT?=$(PWD)/caravel
+export CARAVEL_ROOT?=$(shell pwd)/caravel
 PRECHECK_ROOT?=${HOME}/mpw_precheck
-export MCW_ROOT?=$(PWD)/mgmt_core_wrapper
+export MCW_ROOT?=$(shell pwd)/mgmt_core_wrapper
 SIM?=RTL
 
 # Install lite version of caravel, (1): caravel-lite, (0): caravel
@@ -35,8 +35,8 @@ USER_ARGS = -u $$(id -u $$USER):$$(id -g $$USER)
 ifeq ($(ROOTLESS), 1)
 	USER_ARGS =
 endif
-export OPENLANE_ROOT?=$(PWD)/dependencies/openlane_src
-export PDK_ROOT?=$(PWD)/dependencies/pdks
+export OPENLANE_ROOT?=$(shell pwd)/dependencies/openlane_src
+export PDK_ROOT?=$(shell pwd)/dependencies/pdks
 export DISABLE_LVS?=0
 
 export ROOTLESS
@@ -198,8 +198,8 @@ what:
 # Install Openlane
 .PHONY: openlane
 openlane:
-	@if [ "$$(realpath $${OPENLANE_ROOT})" = "$$(realpath $$(pwd)/openlane)" ]; then\
-		echo "OPENLANE_ROOT is set to '$$(pwd)/openlane' which contains openlane config files"; \
+	@if [ "$$(realpath $${OPENLANE_ROOT})" = "$$(realpath $$(shell pwd)/openlane)" ]; then\
+		echo "OPENLANE_ROOT is set to '$$(shell pwd)/openlane' which contains openlane config files"; \
 		echo "Please set it to a different directory"; \
 		exit 1; \
 	fi
@@ -313,8 +313,8 @@ help:
 
 .PHONY: check_dependencies
 check_dependencies:
-	@if [ ! -d "$(PWD)/dependencies" ]; then \
-		mkdir $(PWD)/dependencies; \
+	@if [ ! -d "$(shell pwd)/dependencies" ]; then \
+		mkdir $(shell pwd)/dependencies; \
 	fi
 
 

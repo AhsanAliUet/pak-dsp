@@ -27,8 +27,7 @@ ifeq ($(ROOTLESS), 1)
 	USER_ARGS =
 endif
 
-openlane_cmd = \
-	"flow.tcl \
+openlane_cmd = "flow.tcl \
 	-design $$(realpath ./$*) \
 	-save_path $$(realpath ..) \
 	-save \
@@ -38,7 +37,7 @@ openlane_cmd = \
 openlane_cmd_interactive = "flow.tcl -it -file $$(realpath ./$*/interactive.tcl)"
 
 docker_mounts = \
-	-v $$(realpath $(PWD)/..):$$(realpath $(PWD)/..) \
+	-v $$(realpath $(shell pwd)/..):$$(realpath $(shell pwd)/..) \
 	-v $(PDK_ROOT):$(PDK_ROOT) \
 	-v $(CARAVEL_ROOT):$(CARAVEL_ROOT) \
 	-v $(OPENLANE_ROOT):/openlane
