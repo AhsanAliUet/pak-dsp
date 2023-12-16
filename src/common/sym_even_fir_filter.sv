@@ -54,11 +54,11 @@ module sym_even_fir_filter #(
     generate
         if (N_COEFFS <= 1)
         begin
-            assign adder[0] = product_out[0];
+            assign adder_out[0] = product_out[0];
         end
         else
         begin
-            assign adder[0] = product_out[0] + product_out[1];
+            assign adder_out[0] = product_out[0] + product_out[1];
             for(genvar I=1; I < (N_COEFFS-1); I++)
             begin
                 assign adder[I] = adder_out[I-1] + product_out[I+1];
@@ -74,7 +74,7 @@ module sym_even_fir_filter #(
         end
         else
         begin
-            assign data_out  = adder[N_COEFFS-2];
+            assign data_out  = adder_out[N_COEFFS-2];
             assign valid_out = valid_in;
         end
     endgenerate

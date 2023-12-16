@@ -58,7 +58,7 @@ module sym_odd_fir_filter #(
         end
 
         // final adder
-        assign adder[0] = product_out[0] + product_out[1];
+        assign adder_out[0] = product_out[0] + product_out[1];
         for(genvar I=1; I < (N_COEFFS-1); I++)
         begin
             assign adder[I] = adder_out[I-1] + product_out[I+1];
