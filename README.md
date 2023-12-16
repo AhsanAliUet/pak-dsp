@@ -1,7 +1,9 @@
 
 # Pak-DSP
 
-Pak-DSP is a digital signal processor capable of increasing sampling rate and decreasing sampling rate of a signal. It is also capable of performing FFT (Fast Fourier Transform) of a time domain signal to show its frequency domain equivalent.
+Pak-DSP is a digital signal processor capable of increasing sampling rate and decreasing sampling rate of a signal. It is also capable of performing FFT (Fast Fourier Transform) of a time domain signal to show its frequency domain equivalent. Architecture level view of Pak-DSP can be view in the image below:
+
+<img src="docs/dsp-top.jpg" alt="dsp-top" width="650"/>
 
 ## Features
 - FFT: N-point decimation in frequency (DIF) Fast Fourier Transform, where N can be configured through a parameter.
@@ -13,6 +15,9 @@ Pak-DSP is a digital signal processor capable of increasing sampling rate and de
 The memory map of Pak-DSP is displayed in the following picture:
 
 <img src="docs/dsp-regmap.jpg" alt="reg_map" width="650"/>
+
+Where GPR is composed of:
+<img src="docs/dsp-regmap-gpr.jpg" alt="reg_map" width="650"/>
 
 ## How to use this project?
 Clone the repository:  
